@@ -31,8 +31,14 @@ public class LogTrackingAspect {
 
     @Around("@annotation(org.pyatakov.t1studyproject.aspect.annotation.LogTracking)")
     public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
+        Object result;
         long start = System.currentTimeMillis();
-        Object result = joinPoint.proceed();
+        try {
+            result = joinPoint.proceed();
+        } catch (Throwable error) {
+            log.error("AroundAdvice advice: An exception has been thrown: " + error.getMessage());
+            throw error;
+        }
         long end = System.currentTimeMillis();
         log.debug("The run time of the method was: {} milisecond", end - start);
         return result;
