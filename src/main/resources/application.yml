@@ -1,0 +1,20 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: lending-service
+  liquibase:
+    enabled: true
+  datasource:
+    hikari:
+      driver-class-name: org.postgresql.Driver
+      username: postgres
+      password: postgres
+    url: jdbc:postgresql://localhost:5430/t1_academy_db
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+logging:
+  level:
+    org.pyatakov.t1studyproject.aspect.LogTrackingAspect: debug
