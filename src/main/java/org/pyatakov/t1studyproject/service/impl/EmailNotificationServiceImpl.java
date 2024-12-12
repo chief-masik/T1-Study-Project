@@ -11,14 +11,14 @@ import java.util.Map;
 public class EmailNotificationServiceImpl implements NotificationService {
 
     @Override
-    public void sendNotificationByUserId(Long userId, String message) {
+    public void sendNotificationByTaskId(Long taskId, String message) {
         // TODO Использовать spring-boot-starter-mail, и в NotificationService реализовать отправку email
-        log.info("sendNotificationByUserId call");
+        log.info("sendNotificationByTaskId call");
     }
 
     @Override
-    public void sendNotificationsByUserId(Map<Long, String> notificationMap) {
+    public void sendNotificationsByTaskId(Map<Long, String> taskIdToMessageMap) {
         // TODO Использовать spring-boot-starter-mail, и в NotificationService реализовать отправку email
-        log.info("sendNotificationsByUserId call");
+        log.info("sendNotificationsByTaskId call");
     }
 }

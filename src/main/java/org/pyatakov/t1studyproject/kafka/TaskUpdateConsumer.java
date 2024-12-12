@@ -24,14 +24,16 @@ public class TaskUpdateConsumer {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @KafkaListener(topics = "${application.kafka.consumer.topic}")
-    public void listen(List<byte[]> messages) {
+    public void listen(List<String> messages) {
         List<TaskStatusUpdate> listTaskStatusUpdate = parseMessages(messages);
-        Map<Long, String> userIdToMessageMap = convertTaskStatusUpdatesToMap(listTaskStatusUpdate);
 
-        emailNotificationService.sendNotificationsByUserId(userIdToMessageMap);
+        if (!listTaskStatusUpdate.isEmpty()) {
+            Map<Long, String> taskIdToMessageMap = convertTaskStatusUpdatesToMap(listTaskStatusUpdate);
+            emailNotificationService.sendNotificationsByTaskId(taskIdToMessageMap);
+        }
     }
 
-    private List<TaskStatusUpdate> parseMessages(List<byte[]> messages) {
+    private List<TaskStatusUpdate> parseMessages(List<String> messages) {
         return messages
                 .stream()
                 .map(message -> {
@@ -40,7 +42,7 @@ public class TaskUpdateConsumer {
                         taskStatusUpdate = objectMapper.readValue(message, TaskStatusUpdate.class);
                         log.debug("Consumer successful reading of TaskStatusUpdate: {}", taskStatusUpdate);
                     } catch (IOException exception) {
-                        log.error("Error reading TaskStatusUpdate: {}", exception.getMessage());
+                        log.error("Error reading TaskStatusUpdate. Message: {}, Exception: {}", message, exception.getMessage());
                     }
                     return taskStatusUpdate;
                 })

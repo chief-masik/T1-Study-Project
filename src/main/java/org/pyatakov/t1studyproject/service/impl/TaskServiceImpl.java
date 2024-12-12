@@ -44,11 +44,14 @@ public class TaskServiceImpl implements TaskService {
 
     @LogTracking
     @Transactional
-    public ResponseTask updateTask(Long id, RequestUpdateTask requestUpdateTask) {
-        Task task = taskRepository.findById(id)
+    public ResponseTask updateTask(Long taskId, RequestUpdateTask requestUpdateTask) {
+        Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found"));
 
-        checkAndSendStatusUpdateMessageToKafka(task.getStatus(), requestUpdateTask);
+        if (task.getStatus() != requestUpdateTask.getStatus()) {
+            taskUpdateProducer.sendTaskStatusUpdate(
+                    new TaskStatusUpdate(taskId, requestUpdateTask.getStatus()));
+        }
 
         taskMapper.updateEntityFromDto(requestUpdateTask, task);
 
@@ -69,11 +72,4 @@ public class TaskServiceImpl implements TaskService {
                 .collect(Collectors.toList());
     }
 
-    private void checkAndSendStatusUpdateMessageToKafka(TaskStatus oldTaskStatus, RequestUpdateTask requestUpdateTask) {
-        if (oldTaskStatus != requestUpdateTask.getStatus()) {
-            taskUpdateProducer.sendTaskStatusUpdate(
-                    new TaskStatusUpdate(requestUpdateTask.getUserId(), requestUpdateTask.getStatus())
-            );
-        }
-    }
 }

@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface NotificationService {
 
-    void sendNotificationByUserId(Long userId, String message);
+    void sendNotificationByTaskId(Long taskId, String message);
 
-    void sendNotificationsByUserId(Map<Long, String> userIdToMessageMap);
+    void sendNotificationsByTaskId(Map<Long, String> taskIdToMessageMap);
 }
