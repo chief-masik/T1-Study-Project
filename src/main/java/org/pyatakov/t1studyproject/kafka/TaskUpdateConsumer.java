@@ -23,7 +23,7 @@ public class TaskUpdateConsumer {
     private final NotificationService emailNotificationService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @KafkaListener(topics = "${application.kafka.consumer.topic}", groupId = "task-group")
+    @KafkaListener(topics = "${application.kafka.consumer.topic}")
     public void listen(List<byte[]> messages) {
         List<TaskStatusUpdate> listTaskStatusUpdate = parseMessages(messages);
         Map<Long, String> userIdToMessageMap = convertTaskStatusUpdatesToMap(listTaskStatusUpdate);
