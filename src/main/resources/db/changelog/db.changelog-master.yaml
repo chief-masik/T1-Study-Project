@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/changeset/create-task-table.yaml
+      file: db/changelog/changeset/2024-12-05-init-db.yaml
+  - include:
+      file: db/changelog/changeset/2024-12-12-update-db.yaml

@@ -1,10 +1,29 @@
 server:
   port: 8080
+application:
+  kafka:
+    consumer:
+      topic: t1.pyatakov.task.update
+    producer:
+      topic: t1.pyatakov.task.update
 spring:
   application:
-    name: lending-service
-  liquibase:
-    enabled: true
+    name: t1-study-project
+  kafka:
+    client-id: ${spring.application.name}
+    bootstrap-servers: localhost:9032
+    consumer:
+      group-id: ${spring.application.name}-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+    listener:
+      type: batch
+      concurrency: 5
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
   datasource:
     hikari:
       driver-class-name: org.postgresql.Driver
@@ -15,6 +34,9 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
+  liquibase:
+    enabled: true
 logging:
   level:
     org.pyatakov.t1studyproject.aspect.LogTrackingAspect: debug
+    org.pyatakov.t1studyproject.kafka: debug

@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: chief-masik
+      comment: "add a new “status” field to the task table"
+      changes:
+        - addColumn:
+            tableName: task
+            columns:
+              - column:
+                  name: status
+                  type: varchar(63)
+                  constraints:
+                    nullable: true
