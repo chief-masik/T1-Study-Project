@@ -21,12 +21,12 @@ public class LogTrackingAspect {
 
     @AfterThrowing(pointcut = "@annotation(org.pyatakov.t1studyproject.aspect.annotation.LogTracking)", throwing = "error")
     public void afterThrowingAdvice(Throwable error) {
-        log.error("AfterThrowing advice: An exception has been thrown: " + error.getMessage());
+        log.error("AfterThrowing advice: An exception has been thrown: {}", error.getMessage());
     }
 
     @AfterReturning(pointcut = "@annotation(org.pyatakov.t1studyproject.aspect.annotation.LogTracking)", returning = "result")
     public void afterReturningAdvice(Object result) {
-        log.info("AfterReturning advice: Method execution has completed successfully. Return value: " + result);
+        log.info("AfterReturning advice: Method execution has completed successfully. Return value: {}", result);
     }
 
     @Around("@annotation(org.pyatakov.t1studyproject.aspect.annotation.LogTracking)")
