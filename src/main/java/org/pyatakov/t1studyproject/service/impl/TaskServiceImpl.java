@@ -8,7 +8,6 @@ import org.pyatakov.t1studyproject.dto.RequestUpdateTask;
 import org.pyatakov.t1studyproject.dto.ResponseTask;
 import org.pyatakov.t1studyproject.dto.TaskStatusUpdate;
 import org.pyatakov.t1studyproject.entity.Task;
-import org.pyatakov.t1studyproject.enums.TaskStatus;
 import org.pyatakov.t1studyproject.kafka.TaskUpdateProducer;
 import org.pyatakov.t1studyproject.repository.TaskRepository;
 import org.pyatakov.t1studyproject.service.TaskService;
@@ -48,12 +47,12 @@ public class TaskServiceImpl implements TaskService {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found"));
 
+        taskMapper.updateEntityFromDto(requestUpdateTask, task);
+
         if (task.getStatus() != requestUpdateTask.getStatus()) {
             taskUpdateProducer.sendTaskStatusUpdate(
                     new TaskStatusUpdate(taskId, requestUpdateTask.getStatus()));
         }
-
-        taskMapper.updateEntityFromDto(requestUpdateTask, task);
 
         return taskMapper.entityToResponse(task);
     }
