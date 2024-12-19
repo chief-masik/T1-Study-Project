@@ -38,5 +38,5 @@ spring:
     enabled: true
 logging:
   level:
-    org.pyatakov.t1studyproject.aspect.LogTrackingAspect: debug
+    org.pyatakov.t1studywebstarter.aspect.LogTrackingAspect: debug
     org.pyatakov.t1studyproject.kafka: debug
