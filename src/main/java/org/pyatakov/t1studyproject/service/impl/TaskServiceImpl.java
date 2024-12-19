@@ -2,7 +2,6 @@ package org.pyatakov.t1studyproject.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.pyatakov.t1studyproject.aspect.annotation.LogTracking;
 import org.pyatakov.t1studyproject.dto.RequestCreateTask;
 import org.pyatakov.t1studyproject.dto.RequestUpdateTask;
 import org.pyatakov.t1studyproject.dto.ResponseTask;
@@ -12,6 +11,7 @@ import org.pyatakov.t1studyproject.kafka.TaskUpdateProducer;
 import org.pyatakov.t1studyproject.repository.TaskRepository;
 import org.pyatakov.t1studyproject.service.TaskService;
 import org.pyatakov.t1studyproject.utility.TaskMapper;
+import org.pyatakov.t1studywebstarter.aspect.annotation.LogTracking;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
